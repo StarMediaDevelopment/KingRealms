@@ -1,0 +1,6 @@
+main: ${project.groupId}.${project.artifactId}.${project.name}
+version: ${project.version}
+name: ${project.name}
+api-version: 1.18
+description: ${project.description}
+depend: [StarMCUtils,StarQuests,Citizens]

@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.firecraftmc.plugins</groupId>
-    <artifactId>kingrealms</artifactId>
+    <groupId>com.kingrealms</groupId>
+    <artifactId>kingrealmscore</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -16,8 +16,8 @@
         <minecraft.version>1.18.2-R0.1-SNAPSHOT</minecraft.version>
     </properties>
     
-    <name>KingRealms</name>
-    <description>The main core of the KingRealms server</description>
+    <name>KingRealmsCore</name>
+    <description>The core plugin for the KingRealms server</description>
 
     <build>
         <plugins>
@@ -25,6 +25,10 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -59,18 +63,7 @@
         </resources>
     </build>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>apache.snapshots</id>
-            <url>https://repository.apache.org/snapshots/</url>
-        </pluginRepository>
-    </pluginRepositories>
-
     <repositories>
-        <repository>
-            <id>spigotmc-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
         <repository>
             <id>starmediadev-maven</id>
             <url>https://repo.starmediadev.com/snapshots</url>
@@ -83,7 +76,18 @@
             <id>everything</id>
             <url>https://repo.citizensnpcs.co/</url>
         </repository>
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
     </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>apache.snapshots</id>
+            <url>https://repository.apache.org/snapshots/</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <dependencies>
         <dependency>
@@ -115,6 +119,12 @@
             <artifactId>citizens-main</artifactId>
             <version>2.0.29-SNAPSHOT</version>
             <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.starmediadev.plugins</groupId>
+            <artifactId>starquests</artifactId>
+            <version>1.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

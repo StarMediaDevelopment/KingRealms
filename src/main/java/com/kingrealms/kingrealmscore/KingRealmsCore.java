@@ -87,5 +87,6 @@ public class KingRealmsCore extends JavaPlugin {
     @Override
     public void onDisable() {
         this.existingIds.forEach((name, id) -> config.set("quests." + name, id));
+        config.save();
     }
 }

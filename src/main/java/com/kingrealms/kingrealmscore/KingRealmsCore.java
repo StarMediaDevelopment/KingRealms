@@ -32,18 +32,18 @@ public class KingRealmsCore extends JavaPlugin {
     
         Quest gatherWood = new Quest("Gather Wood");
         gatherWood.setDescription("Punch some trees to get wood logs");
-        questManager.getQuestRegistry().register(gatherWood);
+        questManager.register(gatherWood);
         questLine.addQuest(gatherWood);
         
         QuestObjective getLogs = new QuestObjective("Chop 5 Wood Logs", gatherWood, new BlockBreakAction(Arrays.asList(ACACIA_LOG, BIRCH_LOG, OAK_LOG, JUNGLE_LOG, SPRUCE_LOG, DARK_OAK_LOG), 5));
-        questManager.getObjectiveRegistry().register(getLogs);
+        questManager.register(getLogs);
         
         Quest gatherStone = new Quest("Gather Stone");
         gatherStone.setDescription("Craft a pickaxe and mine some stone.");
-        questManager.getQuestRegistry().register(gatherStone);
+        questManager.register(gatherStone);
         questLine.addQuest(gatherStone);
         
         QuestObjective getStone = new QuestObjective("Mine 5 stone", gatherStone, new BlockBreakAction(Arrays.asList(STONE, COBBLESTONE), 10));
-        questManager.getObjectiveRegistry().register(getStone);
+        questManager.register(getStone);
     }
 }

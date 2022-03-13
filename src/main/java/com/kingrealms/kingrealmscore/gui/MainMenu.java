@@ -68,9 +68,9 @@ public class MainMenu extends Menu {
                     currentQuestLore.add("&fReward");
                 } else {
                     currentQuestLore.add("&fRewards");
-                    for (QuestReward reward : quest.getRewards()) {
-                        currentQuestLore.add("&f - " + reward.getTitle());
-                    }
+                }
+                for (QuestReward reward : quest.getRewards()) {
+                    currentQuestLore.add("&f - " + reward.getTitle());
                 }
             } else {
                 currentQuestLore.add("&cNo rewards");

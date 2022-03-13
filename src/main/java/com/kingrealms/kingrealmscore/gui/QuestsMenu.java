@@ -1,5 +1,6 @@
 package com.kingrealms.kingrealmscore.gui;
 
+import com.kingrealms.kingrealmscore.KingRealmsCore;
 import com.starmediadev.plugins.starmcutils.builder.ItemBuilder;
 import com.starmediadev.plugins.starmenu.element.Element;
 import com.starmediadev.plugins.starmenu.element.button.Button;
@@ -12,7 +13,6 @@ import com.starmediadev.plugins.starquests.objects.QuestObject;
 import com.starmediadev.plugins.starquests.objects.QuestRequirement;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,12 +20,15 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class QuestsMenu extends Menu {
-    public QuestsMenu(JavaPlugin plugin, QuestLine questLine, Player player) {
+    public QuestsMenu(KingRealmsCore plugin, QuestLine questLine, Player player) {
         super(plugin, "questsmenu", "Quests for " + questLine.getTitle(), 3);
-        setFillerSlots(Material.WHITE_STAINED_GLASS_PANE, 0, 1, 2, 3, 5, 6, 7, 8, 9, 17, 19, 20, 21, 22, 23, 24, 25);
+        setFillerSlots(Material.CYAN_STAINED_GLASS_PANE, 0, 1, 2, 3, 5, 6, 7, 8, 9, 17, 19, 20, 21, 23, 24, 25);
         
         setElement(0, 4, new Element(ItemBuilder.start(Material.DARK_OAK_SIGN).setDisplayName("&f").build()));
         setElement(2, 0, new PreviousPageButton(Material.TRIPWIRE_HOOK, "&c"));
+        Button mainMenu = new Button(ItemBuilder.start(Material.REDSTONE_BLOCK).setDisplayName("&fBack to Main Menu").build());
+        mainMenu.setLeftClickAction((p, menu, type) -> new MainMenu(plugin, player));
+        setElement(2, 4, mainMenu);
         setElement(2, 8, new NextPageButton(Material.TRIPWIRE_HOOK, "&a"));
         
         Set<Quest> questOrder = new TreeSet<>(questLine.getQuests());

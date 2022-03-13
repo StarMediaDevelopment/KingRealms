@@ -1,23 +1,27 @@
 package com.kingrealms.kingrealmscore.gui;
 
+import com.kingrealms.kingrealmscore.KingRealmsCore;
 import com.starmediadev.plugins.starmcutils.builder.ItemBuilder;
 import com.starmediadev.plugins.starmenu.element.Element;
+import com.starmediadev.plugins.starmenu.element.button.Button;
 import com.starmediadev.plugins.starmenu.gui.Menu;
 import com.starmediadev.plugins.starquests.objects.Quest;
 import com.starmediadev.plugins.starquests.objects.QuestObjective;
 import com.starmediadev.plugins.starquests.objects.rewards.QuestReward;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class QuestInfoMenu extends Menu {
-    public QuestInfoMenu(JavaPlugin plugin, Player player, Quest quest) {
+    public QuestInfoMenu(KingRealmsCore plugin, Player player, Quest quest) {
         super(plugin, "questinfo", "Info for " + quest.getTitle(), 3);
     
-        setElement(0, 4, new Element(ItemBuilder.start(Material.CAMPFIRE).setDisplayName("&f").build()));
+    
+        Button backButton = new Button(ItemBuilder.start(Material.SPRUCE_SIGN).setDisplayName("&fBack to Questline Quests").build());
+        backButton.setLeftClickAction((p, menu, type) -> new QuestsMenu(plugin, quest.getQuestLine(), player));
+        setElement(2, 4, backButton);
         setElement(1, 3, new Element(ItemBuilder.start(Material.RAW_GOLD).setDisplayName("&fQuest Name").withLore("&f" + quest.getTitle()).build()));
     
         String objectivesName = "&f" + ((quest.getObjectives().size() == 1) ? "Objective" : "Objectives");
@@ -45,7 +49,7 @@ public class QuestInfoMenu extends Menu {
         }    
         
         setElement(1, 5, new Element(ItemBuilder.start(Material.GOLD_INGOT).setDisplayName("&f" + rewardsName).setLore(rewardsLore).build()));
-        setElement(2, 4, new Element(ItemBuilder.start(Material.SPRUCE_SIGN).setDisplayName("&fQuest Description").withLore("&f" + quest.getDescription()).build()));
+        setElement(0, 4, new Element(ItemBuilder.start(Material.CAMPFIRE).setDisplayName("&fDescription").withLore("&f" + quest.getDescription()).build()));
         player.openInventory(getInventory());
     }
 }

@@ -22,10 +22,13 @@ import java.util.TreeSet;
 public class QuestLinesMenu extends Menu {
     public QuestLinesMenu(KingRealmsCore plugin, Player player) {
         super(plugin, "questsmenu", "All Questlines", 3);
-        setFillerSlots(Material.WHITE_STAINED_GLASS_PANE, 0, 1, 2, 3, 5, 6, 7, 8, 9, 17, 19, 20, 21, 22, 23, 24, 25);
+        setFillerSlots(Material.CYAN_STAINED_GLASS_PANE, 0, 1, 2, 3, 5, 6, 7, 8, 9, 17, 19, 20, 21, 23, 24, 25);
         
         setElement(0, 4, new Element(ItemBuilder.start(Material.DARK_OAK_SIGN).setDisplayName("&f").build()));
         setElement(2, 0, new PreviousPageButton(Material.TRIPWIRE_HOOK, "&c"));
+        Button mainMenu = new Button(ItemBuilder.start(Material.REDSTONE_BLOCK).setDisplayName("&fBack to Main Menu").build());
+        mainMenu.setLeftClickAction((p, menu, type) -> new MainMenu(plugin, player));
+        setElement(2, 4, mainMenu);
         setElement(2, 8, new NextPageButton(Material.TRIPWIRE_HOOK, "&a"));
         
         Set<QuestLine> questLineOrder = new TreeSet<>(plugin.getQuestManager().getQuestLineRegistry().getAllRegistered());

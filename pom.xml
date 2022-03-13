@@ -65,6 +65,10 @@
 
     <repositories>
         <repository>
+        <id>spigot-repo</id>
+        <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
             <id>starmediadev-maven</id>
             <url>https://repo.starmediadev.com/snapshots</url>
         </repository>
@@ -72,14 +76,10 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
-        <repository>
-            <id>everything</id>
-            <url>https://repo.citizensnpcs.co/</url>
-        </repository>
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
+<!--        <repository>-->
+<!--            <id>everything</id>-->
+<!--            <url>https://repo.citizensnpcs.co/</url>-->
+<!--        </repository>-->
     </repositories>
 
     <pluginRepositories>

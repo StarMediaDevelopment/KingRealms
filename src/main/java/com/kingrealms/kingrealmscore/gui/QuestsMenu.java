@@ -16,6 +16,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class QuestsMenu extends Menu {
     public QuestsMenu(JavaPlugin plugin, QuestLine questLine, Player player) {
@@ -26,42 +28,7 @@ public class QuestsMenu extends Menu {
         setElement(2, 0, new PreviousPageButton(Material.TRIPWIRE_HOOK, "&c"));
         setElement(2, 8, new NextPageButton(Material.TRIPWIRE_HOOK, "&a"));
         
-        LinkedList<Quest> questOrder = new LinkedList<>();
-        for (Quest quest : questLine.getQuests()) {
-            if (questOrder.size() == 0) {
-                questOrder.add(quest);
-            } else {
-                boolean isPrerequisite = false;
-                questOrderLoop:
-                for (int i = 0; i < questOrder.size(); i++) {
-                    Quest indexQuest = questOrder.get(i);
-                    for (QuestObject prerequisiteObject : indexQuest.getPrerequisiteObjects()) {
-                        if (prerequisiteObject instanceof Quest prequest) {
-                            if (prequest.getId().equals(quest.getId())) {
-                                questOrder.add(i, quest);
-                                isPrerequisite = true;
-                                break questOrderLoop;   
-                            }
-                        }
-                    }
-                }
-                
-                if (!isPrerequisite) {
-                    questOrderLoop:
-                    for (int i = 0; i < questOrder.size(); i++) {
-                        Quest indexQuest = questOrder.get(i);
-                        for (QuestObject prerequisiteObject : quest.getPrerequisiteObjects()) {
-                            if (prerequisiteObject instanceof Quest prequest) {
-                                if (indexQuest.getId().equals(prequest.getId())) {
-                                    questOrder.add(i + 1, quest);
-                                    break questOrderLoop;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        Set<Quest> questOrder = new TreeSet<>(questLine.getQuests());
     
         for (Quest quest : questOrder) {
             ItemBuilder itemBuilder = new ItemBuilder();

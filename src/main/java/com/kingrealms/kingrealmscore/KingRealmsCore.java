@@ -7,8 +7,10 @@ import com.starmediadev.plugins.starquests.objects.Quest;
 import com.starmediadev.plugins.starquests.objects.QuestLine;
 import com.starmediadev.plugins.starquests.objects.QuestObjective;
 import com.starmediadev.plugins.starquests.objects.actions.BlockBreakAction;
+import com.starmediadev.plugins.starquests.objects.actions.EntityKillAction;
 import com.starmediadev.plugins.starquests.objects.rewards.ItemReward;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,8 +19,10 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.bukkit.Material.*;
+import static org.bukkit.entity.EntityType.*;
 
 public class KingRealmsCore extends JavaPlugin {
     
@@ -68,12 +72,42 @@ public class KingRealmsCore extends JavaPlugin {
         
         questManager.register(new QuestObjective("Mine 5 coal ore", gatherCoal, new BlockBreakAction(COAL_ORE, 5)));
         questManager.register(new ItemReward("32 x Torches", gatherCoal, new ItemStack(TORCH, 32)));
+        
         Quest gatherIron = new Quest("Gather Iron", questLine, gatherCoal);
         gatherIron.setDescription("Get some iron ore.");
         questManager.register(gatherIron);
         
         questManager.register(new QuestObjective("Mine 5 iron ore", gatherIron, new BlockBreakAction(IRON_ORE, 5)));
         questManager.register(new ItemReward("1 x Iron Sword", gatherIron, new ItemStack(IRON_SWORD)));
+        
+        Quest killZombies = new Quest("Kill Zombies", questLine, gatherIron);
+        killZombies.setDescription("Kill some zombies");
+        questManager.register(killZombies);
+        
+        questManager.register(new QuestObjective("Kill 5 Zombies", killZombies, new EntityKillAction(List.of(ZOMBIE, HUSK, DROWNED), 5)));
+        questManager.register(new ItemReward("1 x Iron Chestplate", killZombies, new ItemStack(IRON_CHESTPLATE)));
+        
+        Quest killSkeletons = new Quest("Kill Skeletons", questLine, killZombies);
+        killSkeletons.setDescription("Kill some skeletons");
+        questManager.register(killSkeletons);
+        
+        questManager.register(new QuestObjective("Kill 5 Skeletons", killSkeletons, new EntityKillAction(List.of(SKELETON, WITHER_SKELETON, STRAY), 5)));
+        questManager.register(new ItemReward("1 x Bow", killSkeletons, new ItemStack(BOW)));
+        questManager.register(new ItemReward("10 x Arrows", killSkeletons, new ItemStack(Material.ARROW, 10)));
+        
+        Quest killCows = new Quest("Kill Cows", questLine, killSkeletons);
+        killCows.setDescription("Kill some cows");
+        questManager.register(killCows);
+        
+        questManager.register(new QuestObjective("Kill 5 Cows", killCows, new EntityKillAction(List.of(COW, MUSHROOM_COW), 5)));
+        questManager.register(new ItemReward("10 x Leather", killCows, new ItemStack(LEATHER, 10)));
+        
+        Quest gatherDirt = new Quest("Gather Dirt", questLine, killCows);
+        gatherDirt.setDescription("Dig up some dirt");
+        questManager.register(gatherDirt);
+        
+        questManager.register(new QuestObjective("Dig 5 Dirt", gatherDirt, new BlockBreakAction(DIRT, 5)));
+        questManager.register(new ItemReward("1 x Diamond", gatherDirt, new ItemStack(DIAMOND)));
     }
     
     @Override

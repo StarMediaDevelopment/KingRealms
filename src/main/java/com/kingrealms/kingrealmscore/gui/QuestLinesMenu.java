@@ -3,6 +3,7 @@ package com.kingrealms.kingrealmscore.gui;
 import com.kingrealms.kingrealmscore.KingRealmsCore;
 import com.starmediadev.plugins.starmcutils.builder.ItemBuilder;
 import com.starmediadev.plugins.starmenu.element.Element;
+import com.starmediadev.plugins.starmenu.element.button.Button;
 import com.starmediadev.plugins.starmenu.element.button.NextPageButton;
 import com.starmediadev.plugins.starmenu.element.button.PreviousPageButton;
 import com.starmediadev.plugins.starmenu.gui.Menu;
@@ -10,10 +11,13 @@ import com.starmediadev.plugins.starquests.objects.QuestLine;
 import com.starmediadev.plugins.starquests.objects.QuestObject;
 import com.starmediadev.plugins.starquests.objects.QuestRequirement;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class QuestLinesMenu extends Menu {
     public QuestLinesMenu(KingRealmsCore plugin, Player player) {
@@ -24,58 +28,23 @@ public class QuestLinesMenu extends Menu {
         setElement(2, 0, new PreviousPageButton(Material.TRIPWIRE_HOOK, "&c"));
         setElement(2, 8, new NextPageButton(Material.TRIPWIRE_HOOK, "&a"));
         
-        LinkedList<QuestLine> questLineOrder = new LinkedList<>();
-        for (QuestLine questLine : plugin.getQuestManager().getQuestLineRegistry().getAllRegistered()) {
-            if (questLineOrder.size() == 0) {
-                questLineOrder.add(questLine);
-            } else {
-                boolean isPrerequisite = false;
-                questOrderLoop:
-                for (int i = 0; i < questLineOrder.size(); i++) {
-                    QuestLine indexQuest = questLineOrder.get(i);
-                    for (QuestObject prerequisiteObject : indexQuest.getPrerequisiteObjects()) {
-                        if (prerequisiteObject instanceof QuestLine prequest) {
-                            if (prequest.getId().equals(questLine.getId())) {
-                                questLineOrder.add(i, questLine);
-                                isPrerequisite = true;
-                                break questOrderLoop;   
-                            }
-                        }
-                    }
-                }
-                
-                if (!isPrerequisite) {
-                    questOrderLoop:
-                    for (int i = 0; i < questLineOrder.size(); i++) {
-                        QuestLine indexQuest = questLineOrder.get(i);
-                        for (QuestObject prerequisiteObject : questLine.getPrerequisiteObjects()) {
-                            if (prerequisiteObject instanceof QuestLine prequest) {
-                                if (indexQuest.getId().equals(prequest.getId())) {
-                                    questLineOrder.add(i + 1, questLine);
-                                    break questOrderLoop;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        Set<QuestLine> questLineOrder = new TreeSet<>(plugin.getQuestManager().getQuestLineRegistry().getAllRegistered());
     
-        for (QuestLine quest : questLineOrder) {
+        for (QuestLine questLine : questLineOrder) {
             ItemBuilder itemBuilder = new ItemBuilder();
-            itemBuilder.setDisplayName("&fQuest Line Name: " + quest.getTitle());
+            itemBuilder.setDisplayName("&fQuest Line Name: " + questLine.getTitle());
             List<String> lore = new LinkedList<>();
             
-            if (quest.isComplete(player.getUniqueId())) {
+            if (questLine.isComplete(player.getUniqueId())) {
                 itemBuilder.setMaterial(Material.OXIDIZED_COPPER);
-                lore.add("&7&o" + quest.getDescription());
+                lore.add("&7&o" + questLine.getDescription());
                 lore.add("&2&lCOMPLETE");
-            } else if (!quest.isComplete(player.getUniqueId()) && !quest.isAvailable(player.getUniqueId())) {
+            } else if (!questLine.isComplete(player.getUniqueId()) && !questLine.isAvailable(player.getUniqueId())) {
                 itemBuilder.setMaterial(Material.COPPER_BLOCK);
                 lore.add("&4&lLOCKED");
                 lore.add("&fRequirements to Unlock");
                 String baseComplete = "&fYou must complete the ";
-                for (QuestObject prerequisiteObject : quest.getPrerequisiteObjects()) {
+                for (QuestObject prerequisiteObject : questLine.getPrerequisiteObjects()) {
                     String line = baseComplete;
                     if (prerequisiteObject instanceof QuestLine) {
                         line += "quest line ";
@@ -87,17 +56,19 @@ public class QuestLinesMenu extends Menu {
                     lore.add(line);
                 }
     
-                for (QuestRequirement requirement : quest.getRequirements()) {
+                for (QuestRequirement requirement : questLine.getRequirements()) {
                     lore.add("&fYou must " + requirement.getTitle());
                 }
-            } else if (quest.isAvailable(player.getUniqueId())) {
+            } else if (questLine.isAvailable(player.getUniqueId())) {
                 itemBuilder.setMaterial(Material.TARGET);
-                lore.add("&7&o" + quest.getDescription());
+                lore.add("&7&o" + questLine.getDescription());
                 lore.add("&6&lLeft Click &ffor more info!");
             }
             
             itemBuilder.setLore(lore);
-            addElement(new Element(itemBuilder.build()));
+            Button element = new Button(itemBuilder.build(), Sound.UI_BUTTON_CLICK);
+            element.setLeftClickAction((p, menu, type) -> new QuestsMenu(plugin, questLine, player));
+            addElement(element);
         }
         
         player.openInventory(getInventory());

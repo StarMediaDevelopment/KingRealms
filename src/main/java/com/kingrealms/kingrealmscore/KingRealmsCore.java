@@ -64,7 +64,7 @@ public class KingRealmsCore extends JavaPlugin {
         
         Quest bucketEmpty = new Quest("Bucket Empty", questLine, bucketFill);
         questManager.register(bucketEmpty);
-        questManager.register(new QuestObjective("Empty the bucket", bucketEmpty, new BucketEmptyAction(Material.WATER, 1)));
+        questManager.register(new QuestObjective("Empty the bucket", bucketEmpty, new BucketEmptyAction(Material.WATER_BUCKET, 1)));
         
         Quest entityBucketCapture = new Quest("Entity Bucket Capture", questLine, bucketEmpty);
         questManager.register(entityBucketCapture);

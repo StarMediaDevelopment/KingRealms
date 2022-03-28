@@ -24,9 +24,9 @@ public class QuestLinesMenu extends Menu {
         super(plugin, "questsmenu", "All Questlines", 3);
         setFillerSlots(Material.CYAN_STAINED_GLASS_PANE, 0, 1, 2, 3, 5, 6, 7, 8, 9, 17, 19, 20, 21, 23, 24, 25);
         
-        setElement(0, 4, new Element(ItemBuilder.start(Material.DARK_OAK_SIGN).setDisplayName("&f").build()));
+        setElement(0, 4, new Element(ItemBuilder.start(Material.DARK_OAK_SIGN).displayName("&f").build()));
         setElement(2, 0, new PreviousPageButton(Material.TRIPWIRE_HOOK, "&c"));
-        Button mainMenu = new Button(ItemBuilder.start(Material.REDSTONE_BLOCK).setDisplayName("&fBack to Main Menu").build());
+        Button mainMenu = new Button(ItemBuilder.start(Material.REDSTONE_BLOCK).displayName("&fBack to Main Menu").build());
         mainMenu.setLeftClickAction((p, menu, type) -> new MainMenu(plugin, player));
         setElement(2, 4, mainMenu);
         setElement(2, 8, new NextPageButton(Material.TRIPWIRE_HOOK, "&a"));
@@ -35,15 +35,15 @@ public class QuestLinesMenu extends Menu {
     
         for (QuestLine questLine : questLineOrder) {
             ItemBuilder itemBuilder = new ItemBuilder();
-            itemBuilder.setDisplayName("&fQuest Line Name: " + questLine.getTitle());
+            itemBuilder.displayName("&fQuest Line Name: " + questLine.getTitle());
             List<String> lore = new LinkedList<>();
             
             if (questLine.isComplete(player.getUniqueId())) {
-                itemBuilder.setMaterial(Material.OXIDIZED_COPPER);
+                itemBuilder.material(Material.OXIDIZED_COPPER);
                 lore.add("&7&o" + questLine.getDescription());
                 lore.add("&2&lCOMPLETE");
             } else if (!questLine.isComplete(player.getUniqueId()) && !questLine.isAvailable(player.getUniqueId())) {
-                itemBuilder.setMaterial(Material.COPPER_BLOCK);
+                itemBuilder.material(Material.COPPER_BLOCK);
                 lore.add("&4&lLOCKED");
                 lore.add("&fRequirements to Unlock");
                 String baseComplete = "&fYou must complete the ";
@@ -63,12 +63,12 @@ public class QuestLinesMenu extends Menu {
                     lore.add("&fYou must " + requirement.getTitle());
                 }
             } else if (questLine.isAvailable(player.getUniqueId())) {
-                itemBuilder.setMaterial(Material.TARGET);
+                itemBuilder.material(Material.TARGET);
                 lore.add("&7&o" + questLine.getDescription());
                 lore.add("&6&lLeft Click &ffor more info!");
             }
             
-            itemBuilder.setLore(lore);
+            itemBuilder.lore(lore);
             Button element = new Button(itemBuilder.build(), Sound.UI_BUTTON_CLICK);
             element.setLeftClickAction((p, menu, type) -> new QuestsMenu(plugin, questLine, player));
             addElement(element);

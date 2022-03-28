@@ -123,18 +123,18 @@ public class MainMenu extends Menu {
         }
         
         Sound click = Sound.UI_BUTTON_CLICK;
-        Button currentLineQuests = new Button(ItemBuilder.start(Material.WRITABLE_BOOK).setDisplayName("&fCurrent Questline Quests").build(), click);
+        Button currentLineQuests = new Button(ItemBuilder.start(Material.WRITABLE_BOOK).displayName("&fCurrent Questline Quests").build(), click);
         QuestLine finalQuestLine = questLine;
         currentLineQuests.setLeftClickAction((p, menu, type) -> {
             if (finalQuestLine != null) {
                 new QuestsMenu(plugin, finalQuestLine, player);
             }
         });
-        Button currentQuest = new Button(ItemBuilder.start(Material.CAMPFIRE).setDisplayName("&fCurrent Quest: " + currentQuestTitle).setLore(currentQuestLore).build(), click);
-        Button currentQuestLine = new Button(ItemBuilder.start(Material.SOUL_CAMPFIRE).setDisplayName("&fCurrent Questline: " + currentQuestLineTitle).setLore(currentQuestLineLore).build(), click);
-        Button allQuestLines = new Button(ItemBuilder.start(Material.CARTOGRAPHY_TABLE).setDisplayName("&fAll Questlines").build(), click);
+        Button currentQuest = new Button(ItemBuilder.start(Material.CAMPFIRE).displayName("&fCurrent Quest: " + currentQuestTitle).lore(currentQuestLore).build(), click);
+        Button currentQuestLine = new Button(ItemBuilder.start(Material.SOUL_CAMPFIRE).displayName("&fCurrent Questline: " + currentQuestLineTitle).lore(currentQuestLineLore).build(), click);
+        Button allQuestLines = new Button(ItemBuilder.start(Material.CARTOGRAPHY_TABLE).displayName("&fAll Questlines").build(), click);
         allQuestLines.setLeftClickAction((p, menu, type) -> new QuestLinesMenu(plugin, player));
-        Button playerInfo = new Button(ItemBuilder.start(Material.PLAYER_HEAD).setDisplayName("&fPlayer Info").withLore("&cNot implemented").setSkullOwner(player.getUniqueId()).build(), click);
+        Button playerInfo = new Button(ItemBuilder.start(Material.PLAYER_HEAD).displayName("&fPlayer Info").lore("&cNot implemented").skullOwner(player.getUniqueId()).build(), click);
         
         setElement(0, 0, currentLineQuests);
         setElement(0, 3, currentQuest);

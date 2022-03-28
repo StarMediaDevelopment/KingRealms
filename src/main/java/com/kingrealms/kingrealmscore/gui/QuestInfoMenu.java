@@ -19,10 +19,10 @@ public class QuestInfoMenu extends Menu {
         super(plugin, "questinfo", "Info for " + quest.getTitle(), 3);
     
     
-        Button backButton = new Button(ItemBuilder.start(Material.SPRUCE_SIGN).setDisplayName("&fBack to Questline Quests").build());
+        Button backButton = new Button(ItemBuilder.start(Material.SPRUCE_SIGN).displayName("&fBack to Questline Quests").build());
         backButton.setLeftClickAction((p, menu, type) -> new QuestsMenu(plugin, quest.getQuestLine(), player));
         setElement(2, 4, backButton);
-        setElement(1, 3, new Element(ItemBuilder.start(Material.RAW_GOLD).setDisplayName("&fQuest Name").withLore("&f" + quest.getTitle()).build()));
+        setElement(1, 3, new Element(ItemBuilder.start(Material.RAW_GOLD).displayName("&fQuest Name").lore("&f" + quest.getTitle()).build()));
     
         String objectivesName = "&f" + ((quest.getObjectives().size() == 1) ? "Objective" : "Objectives");
         
@@ -35,7 +35,7 @@ public class QuestInfoMenu extends Menu {
             objectivesLore.add("&4No objectives, this is a bug, please report.");
         }
         
-        setElement(1, 4, new Element(ItemBuilder.start(Material.COAL).setDisplayName("&f" + objectivesName).setLore(objectivesLore).build()));
+        setElement(1, 4, new Element(ItemBuilder.start(Material.COAL).displayName("&f" + objectivesName).lore(objectivesLore).build()));
         
         String rewardsName = "&f" + ((quest.getRewards().size() == 1) ? "Reward" : "Rewards");
     
@@ -48,8 +48,8 @@ public class QuestInfoMenu extends Menu {
             rewardsLore.add("&cNo rewards");
         }    
         
-        setElement(1, 5, new Element(ItemBuilder.start(Material.GOLD_INGOT).setDisplayName("&f" + rewardsName).setLore(rewardsLore).build()));
-        setElement(0, 4, new Element(ItemBuilder.start(Material.CAMPFIRE).setDisplayName("&fDescription").withLore("&f" + quest.getDescription()).build()));
+        setElement(1, 5, new Element(ItemBuilder.start(Material.GOLD_INGOT).displayName("&f" + rewardsName).lore(rewardsLore).build()));
+        setElement(0, 4, new Element(ItemBuilder.start(Material.CAMPFIRE).displayName("&fDescription").lore("&f" + quest.getDescription()).build()));
         player.openInventory(getInventory());
     }
 }

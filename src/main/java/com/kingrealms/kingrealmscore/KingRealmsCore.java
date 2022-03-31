@@ -14,6 +14,17 @@ public class KingRealmsCore extends JavaPlugin {
     private QuestManager questManager;
     
     @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (command.getName().equalsIgnoreCase("quest")) {
+            if (sender instanceof Player player) {
+                new MainMenu(this, player);
+            }
+        }
+        
+        return true;
+    }
+    
+    @Override
     public void onEnable() {
         RegisteredServiceProvider<QuestManager> questProvider = Bukkit.getServicesManager().getRegistration(QuestManager.class);
         if (questProvider == null) {
@@ -30,19 +41,6 @@ public class KingRealmsCore extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
-        
-        
-    }
-    
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("quest")) {
-            if (sender instanceof Player player) {
-                new MainMenu(this, player);
-            }
-        }
-        
-        return true;
     }
     
     public QuestManager getQuestManager() {
